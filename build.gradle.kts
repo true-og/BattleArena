@@ -32,3 +32,18 @@ allprojects {
         options.release.set(17)
     }
 }
+
+tasks.named<Jar>("jar") {
+    enabled = false
+}
+
+val copyPluginJar by tasks.registering(Copy::class) {
+    dependsOn(":plugin:bundledJar")
+    from(project(":plugin").tasks.named("bundledJar"))
+    into(layout.buildDirectory.dir("libs"))
+    rename { "BattleArena-${rootProject.version}.jar" }
+}
+
+tasks.named("assemble") {
+    dependsOn(copyPluginJar)
+}
