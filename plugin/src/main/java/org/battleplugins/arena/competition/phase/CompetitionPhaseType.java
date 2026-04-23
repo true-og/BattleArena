@@ -64,12 +64,12 @@ public final class CompetitionPhaseType<C extends Competition<C>, T extends Comp
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CompetitionPhaseType<?, ?> that = (CompetitionPhaseType<?, ?>) o;
-        return Objects.equals(this.clazz, that.clazz);
+        return Objects.equals(this.name, that.name) && Objects.equals(this.clazz, that.clazz);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.clazz);
+        return Objects.hash(this.name, this.clazz);
     }
 
     public static Set<CompetitionPhaseType<?, ?>> values() {
