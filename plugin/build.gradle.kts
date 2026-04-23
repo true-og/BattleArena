@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation(libs.bstats.bukkit)
-    compileOnlyApi(libs.paper.api)
+    compileOnlyApi(libs.purpur.api)
     compileOnly(libs.worldedit)
 }
 
@@ -30,12 +30,8 @@ tasks {
     runServer {
         dependsOn("bundledJar")
 
-        minecraftVersion("1.20.6")
-
-        // Set Java 21 (1.20.6 requires Java 21)
-        javaLauncher = project.javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
+        // Keep the dev server aligned with the Java 17 build target.
+        minecraftVersion("1.19.4")
     }
 
     jar {
@@ -52,13 +48,13 @@ tasks {
         archiveFileName.set("BattleArena.jar")
     }
 
-    val extractShadowJar by creating(Copy::class) {
+    val extractShadowJar by registering(Copy::class) {
         dependsOn(shadowJar)
         from(zipTree(shadowJar.get().archiveFile.get().asFile))
         into(layout.buildDirectory.get().asFile.resolve("extractedShadow"))
     }
 
-    create<Jar>("bundledJar") {
+    register<Jar>("bundledJar") {
         dependsOn(extractShadowJar)
         from(layout.buildDirectory.get().asFile.resolve("extractedShadow"))
 

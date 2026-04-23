@@ -11,6 +11,12 @@ dependencyResolutionManagement {
 
         // Paper, Velocity
         maven("https://repo.papermc.io/repository/maven-public")
+
+        // Purpur snapshots
+        maven("https://repo.purpurmc.org/snapshots")
+
+        // WorldEdit snapshots
+        maven("https://maven.enginehub.org/repo/")
     }
 }
 

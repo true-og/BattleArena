@@ -5,15 +5,14 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.battleplugins.arena.ArenaPlayer;
 import org.battleplugins.arena.BattleArena;
 import org.battleplugins.arena.module.scoreboard.line.ScoreboardLineCreator;
-import org.battleplugins.arena.util.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,23 +57,9 @@ public class ScoreboardHandler {
         Objective objective = scoreboard.registerNewObjective("ba_sidebar", Criteria.DUMMY, title);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        Version serverVersion = Version.getServerVersion();
-        // API introduced in 1.20.4
-        if (serverVersion.isCompatible("1.20.4")) {
-            objective.numberFormat(io.papermc.paper.scoreboard.numbers.NumberFormat.blank());
-        }
-
         List<Component> lines = this.constructLines();
         for (int i = 0; i < lines.size(); i++) {
-            Component line = lines.get(i);
-            String text = LegacyComponentSerializer.legacySection().serialize(line);
-
-            Score score = objective.getScore(entryPrefix(i) + text);
-            score.setScore(lines.size() - i);
-            // API introduced in 1.20.4
-            if (serverVersion.isCompatible("1.20.4")) {
-                score.customName(line);
-            }
+            this.applyLine(scoreboard, objective, i, lines.get(i), lines.size() - i);
         }
 
         this.lastLines = lines;
@@ -103,16 +88,8 @@ public class ScoreboardHandler {
                     continue;
                 }
 
-                String lastText = LegacyComponentSerializer.legacySection().serialize(lastLine);
-                scoreboard.resetScores(entryPrefix(i) + lastText);
-
-                String text = LegacyComponentSerializer.legacySection().serialize(line);
-                Score score = objective.getScore(entryPrefix(i) + text);
-                score.setScore(lines.size() - i);
-                // API introduced in 1.20.4
-                if (Version.getServerVersion().isCompatible("1.20.4")) {
-                    score.customName(line);
-                }
+                this.clearLine(scoreboard, i);
+                this.applyLine(scoreboard, objective, i, line, lines.size() - i);
             }
 
             this.lastLines = lines;
@@ -122,21 +99,11 @@ public class ScoreboardHandler {
         // Slightly more complicated logic if the line size has changed
         // We need to clear the scoreboard and re-add all the lines
         for (int i = 0; i < this.lastLines.size(); i++) {
-            Component line = this.lastLines.get(i);
-            String text = LegacyComponentSerializer.legacySection().serialize(line);
-            scoreboard.resetScores(entryPrefix(i) + text);
+            this.clearLine(scoreboard, i);
         }
 
         for (int i = 0; i < lines.size(); i++) {
-            Component line = lines.get(i);
-            String text = LegacyComponentSerializer.legacySection().serialize(line);
-
-            Score score = objective.getScore(entryPrefix(i) + text);
-            score.setScore(lines.size() - i);
-            // API introduced in 1.20.4
-            if (Version.getServerVersion().isCompatible("1.20.4")) {
-                score.customName(line);
-            }
+            this.applyLine(scoreboard, objective, i, lines.get(i), lines.size() - i);
         }
 
         this.lastLines = lines;
@@ -158,5 +125,34 @@ public class ScoreboardHandler {
 
     private static String entryPrefix(int index) {
         return CHAT_COLORS[(int) Math.floor(index / 16D)].toString() + CHAT_COLORS[index % 16].toString();
+    }
+
+    private void applyLine(Scoreboard scoreboard, Objective objective, int index, Component line, int scoreValue) {
+        String entry = entryPrefix(index);
+        Team team = scoreboard.getTeam(teamName(index));
+        if (team == null) {
+            team = scoreboard.registerNewTeam(teamName(index));
+            team.addEntry(entry);
+        }
+
+        team.prefix(line);
+        objective.getScore(entry).setScore(scoreValue);
+    }
+
+    private void clearLine(Scoreboard scoreboard, int index) {
+        String entry = entryPrefix(index);
+        scoreboard.resetScores(entry);
+
+        Team team = scoreboard.getTeam(teamName(index));
+        if (team == null) {
+            return;
+        }
+
+        team.removeEntry(entry);
+        team.unregister();
+    }
+
+    private static String teamName(int index) {
+        return "ba_sidebar_" + index;
     }
 }
