@@ -18,6 +18,25 @@ Active games in BattleArena are referred to as Competitions. BattleArena nativel
 - Deathmatch: A 2-minute event where if you die you respawn. The player with the highest number of kills wins.
 - Tournament: Bracket tournament for any number of teams.
 
+## Creating FFA Maps
+FFA maps are stored separately from the arena config under `plugins/BattleArena/maps/ffa/`. If that folder has no map files, the FFA event cannot start.
+
+The recommended setup flow is:
+1. Ensure you have permission for `/ffa create` or are opped.
+2. Run `/ffa create`.
+3. Enter the map name.
+4. Enter the map type. Use `static` unless you specifically want a WorldEdit-backed dynamic map.
+5. Click the first corner of the arena bounds.
+6. Click the second corner of the arena bounds.
+7. Stand at the waiting location and type `waitroom`.
+8. Stand at the spectator location and type `spectator`.
+9. Stand at a playable spawn and type `spawn`.
+10. When prompted for the team name, enter `Default`.
+11. Repeat the `spawn` step to add as many FFA spawnpoints as you want, always using `Default`.
+12. Type `done` to finish.
+
+After creating the map, run `/ffa list` to confirm it loaded. You can also start the event manually with `/ba start ffa`.
+
 ## For Developers
 BattleArena is designed to be easily extendable. You can create your own modes, events, and even competitions. You can also create your own commands and listeners to handle events in your own way.
 
