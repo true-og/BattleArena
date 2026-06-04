@@ -1,6 +1,6 @@
 repositories {
     maven("https://jitpack.io")
-    maven("https://repo.fancyplugins.de/releases")
+    maven("https://repo.fancyinnovations.com/releases")
 }
 
 dependencies {

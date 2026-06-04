@@ -1,0 +1,78 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :clean
+> Task :module:clean
+> Task :plugin:clean
+> Task :module:arena-restoration:clean
+> Task :module:auto-arena:clean
+> Task :module:boundary-enforcer:clean
+> Task :module:classes:clean
+> Task :module:duels:clean
+> Task :module:hologram-integration:clean
+> Task :module:luckperms-integration:clean
+> Task :module:one-in-the-chamber:clean
+> Task :module:party-integration:clean
+> Task :module:placeholderapi-integration:clean
+> Task :module:scoreboards:clean
+> Task :module:team-colors:clean
+> Task :module:team-heads:clean
+> Task :module:tournaments:clean
+
+> Task :plugin:compileJava
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :plugin:processResources
+> Task :plugin:classes
+
+> Task :plugin:shadowJar
+The FileTreeElement.getMode() method has been deprecated. This is scheduled to be removed in Gradle 9.0. Please use the getPermissions() method instead. Consult the upgrading guide for further information: https://docs.gradle.org/8.14.3/userguide/upgrading_version_8.html#unix_file_permissions_deprecated
+
+> Task :plugin:extractShadowJar
+
+> Task :module:arena-restoration:compileJava
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :module:arena-restoration:processResources NO-SOURCE
+> Task :module:arena-restoration:classes
+> Task :module:arena-restoration:jar
+> Task :module:auto-arena:compileJava
+> Task :module:auto-arena:processResources NO-SOURCE
+> Task :module:auto-arena:classes
+> Task :module:auto-arena:jar
+> Task :module:boundary-enforcer:compileJava
+> Task :module:boundary-enforcer:processResources NO-SOURCE
+> Task :module:boundary-enforcer:classes
+> Task :module:boundary-enforcer:jar
+> Task :module:classes:compileJava
+> Task :module:classes:processResources
+> Task :module:classes:classes
+> Task :module:classes:jar
+> Task :module:duels:compileJava
+> Task :module:duels:processResources NO-SOURCE
+> Task :module:duels:classes
+> Task :module:duels:jar
+> Task :module:hologram-integration:compileJava FAILED
+
+[Incubating] Problems report is available at: file:///home/admin/beta-2/plugin-suites/Third-Party/BattleArena/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':module:hologram-integration:compileJava'.
+> Could not resolve all files for configuration ':module:hologram-integration:compileClasspath'.
+   > Could not download FancyHolograms-2.4.0.jar (de.oliver:FancyHolograms:2.4.0)
+      > Could not get resource 'https://repo.fancyplugins.de/releases/de/oliver/FancyHolograms/2.4.0/FancyHolograms-2.4.0.jar'.
+         > Could not GET 'https://repo.fancyplugins.de/releases/de/oliver/FancyHolograms/2.4.0/FancyHolograms-2.4.0.jar'.
+            > repo.fancyplugins.de: Name or service not known
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 15s
+33 actionable tasks: 33 executed
