@@ -37,6 +37,24 @@ The recommended setup flow is:
 
 After creating the map, run `/ffa list` to confirm it loaded. You can also start the event manually with `/ba start ffa`.
 
+## Integrations
+> [!NOTE]
+> The Vault integration has been **removed** in this TrueOG fork. Vault's economy
+> hook was replaced by [DiamondBank-OG](https://github.com/true-og/DiamondBank-OG):
+> the old `edit-currency` action is replaced by `edit-diamonds`, which deposits
+> (positive `amount`) or withdraws (negative `amount`) via the DiamondBank-OG API.
+> Amounts are in DiamondBank-OG diamond notation — a base-9 currency where a single
+> decimal digit is shards, not a fraction (9 shards = 1 diamond), e.g. `1.5` = 1
+> diamond and 5 shards = 14 shards. The Vault multi-economy `bank` parameter is no
+> longer supported. Vault's permission hooks were replaced by
+> [LuckPerms](https://luckperms.net/) 5.5 (the `add-permission` and
+> `remove-permission` actions now use the LuckPerms API).
+
+DiamondBank-OG is vendored as a git submodule under `libs/`. After cloning, run:
+```
+git submodule update --init --recursive
+```
+
 ## For Developers
 BattleArena is designed to be easily extendable. You can create your own modes, events, and even competitions. You can also create your own commands and listeners to handle events in your own way.
 

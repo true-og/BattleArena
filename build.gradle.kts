@@ -9,8 +9,11 @@ allprojects {
         plugin("java-library")
     }
 
-    group = "org.battleplugins"
-    version = "4.0.1"
+    // Vendored libraries under libs/ (e.g. DiamondBank-OG) keep their own group and version.
+    if (!path.startsWith(":libs")) {
+        group = "org.battleplugins"
+        version = "4.0.1"
+    }
 
     repositories {
         maven("https://repo.papermc.io/repository/maven-public")

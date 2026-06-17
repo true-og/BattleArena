@@ -18,7 +18,7 @@ public class PlaceholderApiIntegration implements ArenaModuleInitializer {
 
     @EventHandler
     public void onPostInitialize(BattleArenaPostInitializeEvent event) {
-        // Check that we have Vault installed
+        // Check that we have PlaceholderAPI installed
         if (!Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             event.getBattleArena().module(PlaceholderApiIntegration.ID).ifPresent(container ->
                     container.disable("PlaceholderAPI is required for the PlaceholderAPI integration module to work!")

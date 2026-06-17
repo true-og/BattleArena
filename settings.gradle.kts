@@ -20,6 +20,9 @@ dependencyResolutionManagement {
     }
 }
 
+// Source-built libraries (git submodules under libs/)
+include(":libs:DiamondBank-OG")
+
 // Base plugin
 include("plugin")
 
@@ -28,6 +31,7 @@ include("module:arena-restoration")
 include("module:auto-arena")
 include("module:boundary-enforcer")
 include("module:classes")
+include("module:diamondbank-integration")
 include("module:duels")
 include("module:hologram-integration")
 include("module:one-in-the-chamber")
